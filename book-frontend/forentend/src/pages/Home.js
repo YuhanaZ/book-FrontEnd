@@ -1,6 +1,21 @@
 
+import {Link} from "react-router-dom"
 import Bookcard from "../Componants/Bookcard";
+import Feature from "./Feature";
+
+import img from "../img/booklover.svg"
+import axios from "axios"
+
+import { useEffect, useState } from "react"
+
 function Home() {
+	const[books,setBooks] = useState([])
+	  useEffect(() =>{
+		axios.get("http://localhost:8000/book").then((res)=>{setBooks(res.data.books.slice(0,5))
+
+	
+	})
+	  }, []);
     return (
 		<div>
 <div className="dark:bg-gray-800 dark:text-gray-100">
@@ -10,14 +25,16 @@ function Home() {
 				<span className="dark:text-violet-400"> books</span> 
 			</h1>
 			<p className="mt-6 mb-8 text-lg sm:mb-12">Reading is important because it develops your mind and gives you excessive knowledge and lessons of life </p>
-				{/* <p className="hidden md:inline lg:hidden">turpis pulvinar, est scelerisque ligula sem </p>
-			</p> */}
+			<Link to="/admin/postlist/write">	
 			<div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-				<a rel="" href="#" className="px-8 py-3 text-lg font-semibold border rounded dark:border-gray-100 hover:dark:bg-violet-400 fade-aute">Explore</a>
+				
+				<a rel="" href="#" className="px-8 py-3 text-lg font-semibold border rounded dark:border-gray-100 hover:dark:bg-violet-400 fade-aute">Make Summery</a>
+			
 			</div>
+			</Link>
 		</div>
-		<div className="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128 rounded-xl">
-			<img src="https://img.freepik.com/free-vector/book-readers-concept_74855-6263.jpg?w=826&t=st=1660466734~exp=1660467334~hmac=f7edf44d1624bcb13f39e605b083ed673896391a2cccc04ed156d09ffcd7c5ba" alt="" className="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128" />
+		<div className="flex items-center justify-center p-6 mt-8 lg:mt-20 w-full pl-24 h-64 sm:h-80 lg:h-56 xl:h-112 2xl:h-100 rounded-xl">
+			<img className="ease-in duration-300 " src={img} />
 		</div>
 	</div>
 </div>
@@ -36,22 +53,28 @@ function Home() {
 	</div>
    
 	 <div className="flex items-center">
+		<Link to="/posts">
 	   <h3>View All</h3>
-	  
+	   </Link>
 	 </div>
   
  </div>
  <div className=" ">
-  <div className=" flex justify-center items-center  space-x-4 mt-7 mb-5 flex-wrap ">
-     <Bookcard  />
-	 <Bookcard  />
-	 <Bookcard  />
-	 <Bookcard  />
-	 <Bookcard  />
+  <div className=" flex justify-center items-center  space-x-4 mt-7 mb-24 flex-wrap ">
+  {
+    books.map((book)=>(
+     <Bookcard  book={book} />
+    ))};
   </div>
 	
   
  </div>
+ <div className="">
+  {books.length > 0 &&
+  <Feature book={books[1]} />}
+
+ </div>
+ 
 </div>
 </div>
     )

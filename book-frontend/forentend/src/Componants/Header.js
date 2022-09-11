@@ -3,12 +3,28 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { SearchIcon } from '@heroicons/react/solid'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import {Link} from "react-router-dom"
+import {useContext} from "react";
+import {UserContext} from "../Utils/userContext"
+import {Navigate} from "react-router-dom";
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
+
 export default function Header() {
+  const {user}= useContext(UserContext)
+
+  const {setUser} = useContext(UserContext)
+  function logout(){
+  
+  localStorage.removeItem("token")
+    setUser(false);
+   <Navigate to="/login" />
+  }
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
@@ -22,43 +38,42 @@ export default function Header() {
                     src="https://www.svgrepo.com/show/14436/book.svg"
                     alt="Workflow"
                   />
-                  {/* <img
-                    className=" h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                    alt="Workflow"
-                  /> */}<h3 className="hidden lg:block h-8 w-auto ">LOGO</h3>
+                 
                 </div>
                 <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
-                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  {/* <a
-                    href="#"
-                    className="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                  >
-                    Dashboard
-                  </a> */}
+                 
+                 
                   <a
+                 
                     href="#"
                     className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                   >
+                    <Link to="/">
                    Home
+                   </Link>
                   </a>
+                 
                   <a
                     href="#"
                     className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                   >
+                     <Link to="/about">
                     About
+                    </Link>
                   </a>
                   <a
                     href="#"
                     className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                   >
-                    Top Selling
+                    <Link to="/posts">
+                    Book Posts
+                    </Link>
                   </a>
                 </div>
               </div>
-              <div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
+              {/* <div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
                 <div className="max-w-lg w-full lg:max-w-xs">
-                  <label htmlFor="search" className="sr-only">
+                  <label className="sr-only">
                     Search
                   </label>
                   <div className="relative">
@@ -74,7 +89,7 @@ export default function Header() {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex items-center lg:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -87,27 +102,38 @@ export default function Header() {
                 </Disclosure.Button>
               </div>
               <div className="hidden lg:ml-4 lg:flex lg:items-center">
-                <button
+                {/* <button
                   type="button"
                   className="flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                </button> */}
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-4 relative flex-shrink-0">
-                  <div>
-                    <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
+                  {
+                    user ? (
+                      <div>
+                      <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                      </Menu.Button>
+                    </div>
+                    ) : (
+                      <Link to="/login">
+                        <button 
+                          type="button" 
+                          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2 mr-2 mb-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Login</button> 
+                       </Link>
+                    )
+                  }
+                 
+                 <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
                     enterFrom="transform opacity-0 scale-95"
@@ -116,14 +142,17 @@ export default function Header() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40 ">
                       <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
+                            <Link to="/admin/postlist">
                             Your Profile
+                            </Link>
+                       
                           </a>
                         )}
                       </Menu.Item>
@@ -139,12 +168,15 @@ export default function Header() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
+                         
                           <a
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          onClick={logout}
                           >
                             Sign out
                           </a>
+                        
                         )}
                       </Menu.Item>
                     </Menu.Items>
@@ -156,14 +188,7 @@ export default function Header() {
 
           <Disclosure.Panel className="lg:hidden">
             <div className="pt-2 pb-3 space-y-1">
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
-              {/* <Disclosure.Button
-                as="a"
-                href="#"
-                className="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-              >
-                Dashboard
-              </Disclosure.Button> */}
+            
               <Disclosure.Button
                 as="a"
                 href="#"
@@ -199,13 +224,13 @@ export default function Header() {
                   <div className="text-base font-medium text-gray-800">Yonis nouh</div>
                   <div className="text-sm font-medium text-gray-500">yonis@gmail.com</div>
                 </div>
-                <button
+                {/* <button
                   type="button"
                   className="ml-auto flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                </button> */}
               </div>
               <div className="mt-3 space-y-1">
                 <Disclosure.Button

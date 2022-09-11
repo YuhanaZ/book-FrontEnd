@@ -1,22 +1,23 @@
-
-function Bookcard () {
+import {Link} from "react-router-dom"
+function Bookcard ({book}) {
     return <div className="flex space-x-2">
-       <div class="w-40 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
+      <Link to ={`/read/${book._id}`} >
+       <div className="w-40 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl break-normal">
         {/* Image */}
-        <img class="object-cover rounded-xl h-25  rounded-md" 
-        src="https://thestoryexchange.org/app/uploads/2022/06/fellowship-point.jpeg" alt="" />
-        <div class="p-2">
+        <img className="object-cover  h-25 w-15  rounded-md" 
+        src={`http://localhost:8000/${book.image}`} alt="image" />
+        <div className="p-2">
         {/* Book name  */}
-        <h2 class="font-bold text-lg mb-1 ">Atomic Habits</h2>
+        <h2 className="font-bold text-md mb-1 ">{book.title}</h2>
         {/* Author  */}
-        <p class="text-sm text-gray-600 mt-0"> by James Clear </p>
+        <p className="text-sm text-gray-600 mt-0"> {book.author} </p>
         </div>
         {/*  btn  */}
         
       </div>
-      
+      </Link>
     </div>
-       
+  
     
 }
 
