@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import img from "../img/reading.svg"
 function SignUp(){
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function SignUp(){
         localStorage.setItem("token", res.data.token)
         console.log(res.data.message)
         toast.success(res.data.message)
-        navigate("/")
+        navigate("/login")
        
       
     }catch(e){
@@ -33,10 +33,10 @@ function SignUp(){
     return <div>
 
 
-      <div className="min-h-full flex  p-10 bg-gray-50 dark:bg-gray-700 ">
-        
+      <div className="min-h-full flex  p-10 dark:bg-gray-700  ">
+       
         <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 lg:bg-white  ">
-          <div className="mx-auto w-full max-w-sm lg:w-96">
+          <div className="mx-auto w-full max-w-sm lg:w-96 ">
             <div>
               <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Welcome to BookClub</h2>
             </div>
@@ -157,10 +157,10 @@ function SignUp(){
             </div>
           </div>
         </div>
-        <div className="hidden lg:block relative w-0 flex-1">
+        <div className="hidden lg:block relative w-0 flex-1 lg:bg-white ">
           <img
-            className="absolute inset-0 h-full w-full object-cover  "
-            src="https://preview.pixlr.com/images/800wm/1210/1/1210100336.jpg"
+            className="absolute inset-0 h-full p-14 object-cover  "
+            src={img}
             alt=""
           />
         </div>

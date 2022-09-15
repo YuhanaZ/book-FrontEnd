@@ -61,7 +61,7 @@ axios.get(`http://localhost:8000/book/${id}`)
 }
   return (
     <div className="flex justify-center bg-gray-50 dark:bg-gray-900  lg:h-screen md:h-screen w-full  ">
-      <div className="lg:mt-10 p-4 mb-40 rounded-md  rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-5/6 h-5/6">
+      <div className="lg:mt-10 p-4 mb-40 rounded-md  rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-5/6 h-5/6 mt-14">
         <div className="text-center py-3 dark:text-white">
           <h2 className="font-bold">Make Summery</h2>
           <h2 className="text-sm text-gray-400">

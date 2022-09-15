@@ -3,11 +3,16 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { SearchIcon } from '@heroicons/react/solid'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-import {Link} from "react-router-dom"
 import {useContext} from "react";
 import {UserContext} from "../Utils/userContext"
 import {Navigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import{Link} from "react-router-dom";
+import axios from "axios";
+// import { toast } from "react-toastify";
+// import {useEffect, useState} from "react";
 
+// import axios from "axios";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -16,15 +21,31 @@ function classNames(...classes) {
 
 
 export default function Header() {
+
   const {user}= useContext(UserContext)
 
   const {setUser} = useContext(UserContext)
+
   function logout(){
   
   localStorage.removeItem("token")
     setUser(false);
    <Navigate to="/login" />
   }
+
+  const [userData, setUserData]= useState([]);
+
+  useEffect(()=>{
+   
+    const token= localStorage.getItem("token");
+    axios.get("http://localhost:8000/user/getUser",{
+       headers:{
+        authorization: token,
+       },
+    })
+    .then((res)=>setUserData(res.data.data));
+  },[]);
+
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
@@ -33,12 +54,13 @@ export default function Header() {
             <div className="flex justify-between h-16">
               <div className="flex px-2 lg:px-0">
                 <div className="flex-shrink-0 flex items-center">
+                  <Link to ="/">
                   <img
                     className="block  h-8 w-auto"
                     src="https://www.svgrepo.com/show/14436/book.svg"
                     alt="Workflow"
                   />
-                 
+                 </Link>
                 </div>
                 <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                  
@@ -119,7 +141,7 @@ export default function Header() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src={`http://localhost:8000/${userData.image}`}
                           alt=""
                         />
                       </Menu.Button>
@@ -194,21 +216,33 @@ export default function Header() {
                 href="#"
                 className="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
               >
-                Home
+                  <a>
+                <Link to="/">
+                   Home
+                   </Link>
+                  </a>
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
                 href="#"
                 className="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
               >
-                About
+                 <a>
+                <Link to="/about">
+                   About
+                   </Link>
+                  </a>
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
                 href="#"
                 className="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
               >
-                Top Selling
+                  <a>
+                <Link to="/posts">
+                   Book Posts
+                   </Link>
+                  </a>
               </Disclosure.Button>
             </div>
             <div className="pt-4 pb-3 border-t border-gray-200">
@@ -216,13 +250,13 @@ export default function Header() {
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    src={`http://localhost:8000/${userData.image}`}
                     alt=""
                   />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-gray-800">Yonis nouh</div>
-                  <div className="text-sm font-medium text-gray-500">yonis@gmail.com</div>
+                  <div className="text-base font-medium text-gray-800">{userData.name}</div>
+                  <div className="text-sm font-medium text-gray-500">{userData.email}</div>
                 </div>
                 {/* <button
                   type="button"
@@ -238,7 +272,9 @@ export default function Header() {
                   href="#"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
                 >
-                  Your Profile
+                   <Link to="/admin/postlist">
+                            Your Profile
+                            </Link>
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
@@ -251,6 +287,7 @@ export default function Header() {
                   as="a"
                   href="#"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                  onClick={logout}
                 >
                   Sign out
                 </Disclosure.Button>

@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
+
 
 function PostsList(){
-   
+    
+
  const [posts, setPosts] = useState([])
    useEffect(() => {
     const token= localStorage.getItem("token");
